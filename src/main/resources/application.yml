@@ -1,0 +1,74 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8001
+
+#app.id: alvin-test-app
+app.id: mall_user
+apollo:
+#  meta: http://192.168.1.232:8080
+  meta: http://121.41.202.129:8080
+  bootstrap:
+    enabled: false
+    namespaces: user_info
+#    namespaces: aliyun_mysql,eureka_client
+
+# 应用名称
+spring:
+  application.name: user
+  datasource:
+    url: jdbc:mysql://121.41.202.129:3306/mall_tiny?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: wmj19941014
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: www.weimianjin.com # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: wmj19941014 # Redis服务器连接密码（默认为空）
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+    timeout: 3000ms # 连接超时时间（毫秒）
+#  datasource:
+#    url: jdbc:mysql://192.168.1.241:3306/daas_ms6?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+eureka:
+#　　client:
+    serviceUrl:
+　　　　defaultZone: http://www.weiminjin.com:8761/eureka/  #eureka服务端提供的注册地址 参考服务端配置的这个路径
+　　instance:
+  　 　　instance-id: power-1 #此实例注册到eureka服务端的唯一的实例ID
+  　　　 prefer-ip-address: true #是否显示IP地址
+  　　　 leaseRenewalIntervalInSeconds: 10 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒 (与下面配置的单位都是秒)
+  　　　 leaseExpirationDurationInSeconds: 30 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
+
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*Mapper.xml
+    - classpath*:com/**/mapper/*.xml
+
+
+# 自定义redis key
+redis:
+  key:
+    prefix:
+      authCode: "portal:authCode:"
+    expire:
+      authCode: 120 # 验证码超期时间
+
+
+# swagger配置参数
+swagger:
+  config:
+    basePackage: com.mall.user.controller
+    title: 设备管理API接口文档
+    description: 提供设备管理相关接口描述
+    version: 1.0
